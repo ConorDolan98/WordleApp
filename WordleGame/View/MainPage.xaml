@@ -1,47 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
-            xmlns:model="clr-namespace:WordleGame.Model;assembly=WordleGame"  
-            Title="{Binding Title}"
-            x:Class="WordleGame.MainPage">
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:WordleGame.Model;assembly=WordleGame"
+             Title="{Binding Title}"
+             x:Class="WordleGame.MainPage">
 
+    <VerticalStackLayout Padding="20" Spacing="10">
 
-    <Grid ColumnDefinitions="*,*"
-          ColumnSpacing="5"
-          RowDefinitions="*,Auto"
-          RowSpacing="0">
+        <!-- Label for instructions -->
+        <Label Text="Enter Your Guess" FontSize="Medium" HorizontalOptions="Center" />
 
-        <!-- CollectionView to display the list of words -->
-        <CollectionView BackgroundColor="Aqua"
-                        Grid.ColumnSpan="2"
-                        ItemsSource="{Binding Words}"
-                        SelectionMode="None">
+        <!-- Entry box for the player's guess -->
+        <Entry Text="{Binding PlayerAnswer}" Placeholder="Enter 5-letter word" MaxLength="5" />
+
+        <!-- Button to submit guess -->
+        <Button Text="Submit Guess" Command="{Binding SubmitAnswerCommand}" />
+
+        <!-- Display the selected word for debugging purposes -->
+        <Label Text="{Binding SelectWord}" FontSize="Large" HorizontalOptions="Center" />
+
+        <!-- CollectionView to display guess feedback -->
+        <CollectionView ItemsSource="{Binding GuessResult}">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Wordle">
-                    <Grid Padding="10">
-                        <Frame HeightRequest="125">
-                            <Label Text="{Binding Word}" />
-                        </Frame>
-                    </Grid>
+                <DataTemplate>
+                    <Label Text="{Binding}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!-- Button to fetch new words -->
-        <Button Text="New Wordle"
-                Command="{Binding GetWordsCommand}"
-                IsEnabled="{Binding IsNotBusy}"
-                Grid.Row="1"
-                Margin="5" />
-
-        <!-- ActivityIndicator to show loading status -->
-        <ActivityIndicator IsVisible="{Binding IsBusy}"
-                            IsRunning="{Binding IsBusy}"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="CenterAndExpand"
-                            Grid.Row="2"
-                            Grid.ColumnSpan="2" />
-
-    </Grid>
-
+    </VerticalStackLayout>
 </ContentPage>

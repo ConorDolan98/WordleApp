@@ -21,30 +21,35 @@ namespace WordleGame.Services
 
         public async Task<List<Wordle>> GetWords()
         {
-            //Checks if words are loaded
+            // Checks if words are loaded
             if (wordsList.Count > 0)
                 return wordsList;
 
-            //api
             var wordUrl = "https://raw.githubusercontent.com/DonH-ITS/jsonfiles/main/words.txt";
 
-            //Retrieving the words from the api
-            var response = await httpClient.GetAsync(wordUrl);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var text = await response.Content.ReadAsStringAsync();
-                var words = text.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+                var response = await httpClient.GetAsync(wordUrl);
 
-                // Create Wordle objects for each word
-                foreach (var word in words)
+                if (response.IsSuccessStatusCode)
                 {
-                    wordsList.Add(new Wordle { Word = word.Trim() });
+                    var text = await response.Content.ReadAsStringAsync();
+                    var words = text.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    // Create Wordle objects for each word
+                    foreach (var word in words)
+                    {
+                        wordsList.Add(new Wordle { Word = word.Trim() });
+                    }
+                }
+                else
+                {
+                    throw new Exception("Unable to retrieve words from the API.");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                throw new Exception("Unable to retrieve words from the API.");
+                throw new Exception("Error fetching words", ex);
             }
 
             return wordsList;
