@@ -1,17 +1,14 @@
-﻿using WordleGame.Services;
+﻿using Microsoft.Maui.Controls;
 using WordleGame.ViewModel;
-using System;
 
-namespace WordleGame
+namespace WordleGame.View
 {
     public partial class MainPage : ContentPage
     {
         public MainPage()
         {
             InitializeComponent();
-            var wordleService = new WordleService();
-            BindingContext = new WordleViewModel(wordleService);
+            BindingContext = new MainPageViewModel();
         }
     }
-
 }

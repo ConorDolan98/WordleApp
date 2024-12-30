@@ -1,31 +1,16 @@
-﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:model="clr-namespace:WordleGame.Model;assembly=WordleGame"
-             Title="{Binding Title}"
-             x:Class="WordleGame.MainPage">
+             xmlns:viewModel="clr-namespace:WordleGame.ViewModel"
+             x:Class="WordleGame.View.MainPage"
+             Title="{Binding Title}">
 
-    <VerticalStackLayout Padding="20" Spacing="10">
+    <ContentPage.BindingContext>
+        <viewModel:MainPageViewModel />
+    </ContentPage.BindingContext>
 
-        <!-- Label for instructions -->
-        <Label Text="Enter Your Guess" FontSize="Medium" HorizontalOptions="Center" />
-
-        <!-- Entry box for the player's guess -->
-        <Entry Text="{Binding PlayerAnswer}" Placeholder="Enter 5-letter word" MaxLength="5" />
-
-        <!-- Button to submit guess -->
-        <Button Text="Submit Guess" Command="{Binding SubmitAnswerCommand}" />
-
-        <!-- Display the selected word for debugging purposes -->
-        <Label Text="{Binding SelectWord}" FontSize="Large" HorizontalOptions="Center" />
-
-        <!-- CollectionView to display guess feedback -->
-        <CollectionView ItemsSource="{Binding GuessResult}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Label Text="{Binding}" />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-    </VerticalStackLayout>
+    <StackLayout Padding="20">
+        <!-- Navigation Button to GamePage -->
+        <Button Text="Start Game" Command="{Binding NavigateToGameCommand}" />
+    </StackLayout>
 </ContentPage>

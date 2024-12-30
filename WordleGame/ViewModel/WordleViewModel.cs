@@ -80,7 +80,13 @@ namespace WordleGame.ViewModel
         public Command GetWordsCommand { get; }
         public Command SubmitAnswerCommand { get; }
 
-        //Constructor
+        //WordleViewModel Default Constructor
+        public WordleViewModel()
+        {
+            
+        }
+
+        //WordleViewModel Constructor takes wordleService parameter
         public WordleViewModel(WordleService wordleService)
         {
             Title = "Wordle";
@@ -131,7 +137,7 @@ namespace WordleGame.ViewModel
             try
             {
                 IsBusy = true;
-                var playerAnswerArray = PlayerAnswer.ToCharArray(); // Puts user's answer into an array
+                var playerAnswerArray = PlayerAnswer.ToCharArray(); //puts user's answer into an array
                 var result = new ObservableCollection<string>();
 
                 if (selectWordArray == null)
@@ -155,17 +161,17 @@ namespace WordleGame.ViewModel
                         if (playerAnswerArray[i] == selectWordArray[i])
                         {
                             gameFeedback[i] = 'G';
-                            result.Add($"{playerAnswerArray[i]} correct position");
+                            result.Add($"{playerAnswerArray[i]} is in the correct position");
                         }
                         else if (selectWordArray.Contains(playerAnswerArray[i]))
                         {
                             gameFeedback[i] = 'Y';
-                            result.Add($"{playerAnswerArray[i]} correct but wrong position.");
+                            result.Add($"{playerAnswerArray[i]} is correct but wrong position.");
                         }
                         else
                         {
                             gameFeedback[i] = 'X';
-                            result.Add($"{playerAnswerArray[i]} incorrect");
+                            result.Add($"{playerAnswerArray[i]} is incorrect");
                         }
                     }
 

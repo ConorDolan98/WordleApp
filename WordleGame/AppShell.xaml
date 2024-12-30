@@ -1,15 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="WordleGame.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:WordleGame"
-    Shell.FlyoutBehavior="Disabled"
-    Title="WordleGame">
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:view="clr-namespace:WordleGame.View"
+       x:Class="WordleGame.AppShell">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <!-- Define the route for MainPage -->
+    <ShellContent Title="MainPage" ContentTemplate="{DataTemplate view:MainPage}" Route="main" />
 
+    <!-- Define the route for GamePage -->
+    <ShellContent Title="GamePage" ContentTemplate="{DataTemplate view:GamePage}" Route="game" />
 </Shell>

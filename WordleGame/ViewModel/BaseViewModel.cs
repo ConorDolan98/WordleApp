@@ -1,28 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Maui.Controls;
 using System.ComponentModel;
-using System.Linq;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WordleGame.ViewModel
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        bool isBusy;
-        string title;
+        private bool isBusy;
+        private string title;
 
         public bool IsBusy
         {
             get => isBusy;
             set
             {
-                if (isBusy = value)
-                    return;
-                isBusy = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(IsNotBusy));
+                if (isBusy != value)
+                {
+                    isBusy = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -31,20 +28,41 @@ namespace WordleGame.ViewModel
             get => title;
             set
             {
-                if (title == value)
-                    return;
-                title = value;
-                OnPropertyChanged();
+                if (title != value)
+                {
+                    title = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
-        public bool IsNotBusy => !isBusy;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName] string word = null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(word));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        //Navigation method
+        public async Task NavigateToAsync(string route)
+        {
+            try
+            {
+                if (!IsBusy)
+                {
+                    IsBusy = true;
+                    await Shell.Current.GoToAsync(route);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Navigation Error: {ex.Message}");
+                await Shell.Current.DisplayAlert("Error", "Navigation failed.", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }
