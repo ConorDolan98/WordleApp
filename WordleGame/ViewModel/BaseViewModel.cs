@@ -57,7 +57,7 @@ namespace WordleGame.ViewModel
             catch (Exception ex)
             {
                 Debug.WriteLine($"Navigation Error: {ex.Message}");
-                await Shell.Current.DisplayAlert("Error", "Navigation failed.", "OK");
+                await Shell.Current.DisplayAlert("Navigation Error", $"Error navigating to {route}. {ex.Message}", "OK");
             }
             finally
             {

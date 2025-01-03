@@ -9,4 +9,5 @@
 
     <!-- Define the route for GamePage -->
     <ShellContent Title="GamePage" ContentTemplate="{DataTemplate view:GamePage}" Route="game" />
+
 </Shell>

@@ -9,8 +9,11 @@
         <viewModel:MainPageViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout Padding="20">
-        <!-- Navigation Button to GamePage -->
+    <!-- Main Layout -->
+    <VerticalStackLayout Padding="20">
+        <!-- Navigation Buttons-->
         <Button Text="Start Game" Command="{Binding NavigateToGameCommand}" />
-    </StackLayout>
+        <Button Text="Settings" Clicked="OnSettingsClicked" />
+        <Button Text="Scoreboard" Clicked="OnScoreboardClicked" />
+    </VerticalStackLayout>
 </ContentPage>
