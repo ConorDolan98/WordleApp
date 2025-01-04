@@ -41,6 +41,8 @@ namespace WordleGame.Services
                     {
                         wordsList.Add(new Wordle { Word = word.Trim() });
                     }
+
+                    RandomizeWords(wordsList);
                 }
                 else
                 {
@@ -53,6 +55,18 @@ namespace WordleGame.Services
             }
 
             return wordsList;
+        }
+
+        private void RandomizeWords(List<Wordle> wordsList)
+        {
+            var random = new Random();
+            for (int i = 0; i < wordsList.Count; i++)
+            {
+                int randomIndex = random.Next(i, wordsList.Count);
+                var order = wordsList[i];
+                wordsList[i] = wordsList[randomIndex];
+                wordsList[randomIndex] = order;
+            }
         }
     }
 }

@@ -213,5 +213,7 @@ namespace WordleGame.ViewModel
                 IsBusy = false;
             }
         }
+
+
     }
 }
