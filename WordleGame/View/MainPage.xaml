@@ -11,6 +11,8 @@
 
     <!-- Main Layout -->
     <VerticalStackLayout Padding="20">
+        <!-- Username -->
+        <Entry Placeholder="Enter your name" Text="{Binding PlayerName}" />
         <!-- Navigation Buttons-->
         <Button Text="Start Game" Command="{Binding NavigateToGameCommand}" />
         <Button Text="Settings" Clicked="OnSettingsClicked" />

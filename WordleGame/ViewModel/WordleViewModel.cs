@@ -20,6 +20,37 @@ namespace WordleGame.ViewModel
         private string playerAnswer;
         private ObservableCollection<string> guessResult;
         private int maxAttempts = 6;
+        private bool isGameOver;
+        private string playerName;
+
+
+        public string PlayerName
+        {
+            get => playerName;
+            set
+            {
+                playerName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsGameOver
+        {
+            get => isGameOver;
+            set
+            {
+                if (isGameOver != value)
+                {
+                    isGameOver = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private void SetGameOver(bool gameOver)
+        {
+            IsGameOver = gameOver;
+        }
 
         //track player attempts
         public int MaxAttempts
@@ -79,26 +110,55 @@ namespace WordleGame.ViewModel
 
         public Command GetWordsCommand { get; }
         public Command SubmitAnswerCommand { get; }
+        public Command NewGameCommand { get; }
 
         //WordleViewModel Default Constructor
         public WordleViewModel()
         {
-            
+
         }
 
-        //WordleViewModel Constructor takes wordleService parameter
+        //overloaded constructor
         public WordleViewModel(WordleService wordleService)
         {
             Title = "Wordle";
             this.wordleService = wordleService;
             GetWordsCommand = new Command(async () => await GetWordsAsync());
             SubmitAnswerCommand = new Command(async () => await SubmitAnswerAsync());
+            NewGameCommand = new Command(async () => await NewGameAsync());
 
-            
             Debug.WriteLine("WordleViewModel initialized");
-            //initiaing the GetWordsAsync method
             _ = GetWordsAsync();
         }
+
+        async Task NewGameAsync()
+        {
+            if (IsBusy)
+                return;
+
+            try
+            {
+                IsBusy = true;
+                MaxAttempts = 6;
+                PlayerAnswer = string.Empty;
+                GuessResult = new ObservableCollection<string>();
+                await GetWordsAsync();
+
+                OnPropertyChanged(nameof(MaxAttempts));
+                OnPropertyChanged(nameof(PlayerAnswer));
+                OnPropertyChanged(nameof(GuessResult));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                await Shell.Current.DisplayAlert("Error", "Unable to start a new game", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
 
         // Method to get the list of words and select a random word
         async Task GetWordsAsync()
@@ -175,16 +235,28 @@ namespace WordleGame.ViewModel
                         }
                     }
 
-                    maxAttempts--;
+                    MaxAttempts--;
                     //displaying results
                     if (new string(playerAnswerArray) == new string(selectWordArray))
                     {
                         result.Add("Congratulations! You guessed the word!");
                         GuessResult = result;
 
+                        var scoreData = new ScoreData
+                        {
+                            PlayerName = PlayerName,
+                            Word = SelectWord,
+                            AttemptsUsed = 6 - MaxAttempts
+                        };
+
+                        // Pass the score data to the ScoreboardViewModel
+                        var scoreboardViewModel = new ScoreboardViewModel();
+                        scoreboardViewModel.AddScore(scoreData);
+
                         // Show a popup for winning
                         await Shell.Current.DisplayAlert("You Win!", "Congratulations! You've guessed the word correctly.", "OK");
                         MaxAttempts = 0; // Game ends
+                        SetGameOver(true);
                     }
                     else if (MaxAttempts == 0)
                     {
@@ -193,6 +265,7 @@ namespace WordleGame.ViewModel
 
                         // Show a popup for losing
                         await Shell.Current.DisplayAlert("Game Over", $"You've run out of attempts. The word was: {new string(selectWordArray)}.", "OK");
+                        SetGameOver(true);
                     }
                     else
                     {
@@ -213,7 +286,5 @@ namespace WordleGame.ViewModel
                 IsBusy = false;
             }
         }
-
-
     }
 }

@@ -6,12 +6,18 @@
 
     <VerticalStackLayout Padding="20" Spacing="15">
 
+        <!-- Game Title -->
         <Label Text="Wordle Game" 
                FontSize="24" 
                HorizontalOptions="Center" 
                VerticalOptions="Start" />
 
-      
+        <!-- Attempts Left -->
+        <Label Text="{Binding MaxAttempts, StringFormat='Attempts Left: {0}'}" 
+               FontSize="18" 
+               HorizontalOptions="Center" 
+               VerticalOptions="Start" />
+
         <!-- Player's Input -->
         <Entry Placeholder="Enter your 5-letter guess"
                Text="{Binding PlayerAnswer}"
@@ -35,5 +41,8 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        <!-- Play Again Button -->
+        <Button Text="New Game" Command="{Binding NewGameCommand}" />
     </VerticalStackLayout>
 </ContentPage>

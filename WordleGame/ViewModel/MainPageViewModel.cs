@@ -4,9 +4,21 @@ namespace WordleGame.ViewModel
 {
     public class MainPageViewModel : BaseViewModel
     {
+        private string playerName;
+
+
         public ICommand NavigateToGameCommand { get; }
         public ICommand NavigateToSettingsCommand { get; }
 
+        public string PlayerName
+        {
+            get => playerName;
+            set
+            {
+                playerName = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MainPageViewModel()
         {

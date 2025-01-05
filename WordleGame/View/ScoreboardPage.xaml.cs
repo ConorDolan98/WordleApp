@@ -1,9 +1,14 @@
-namespace WordleGame.View;
+using WordleGame.ViewModel;
+using WordleGame.Model;
 
-public partial class ScoreboardPage : ContentPage
+namespace WordleGame.View
 {
-    public ScoreboardPage()
+    public partial class ScoreboardPage : ContentPage
     {
-        InitializeComponent();
+        public ScoreboardPage()
+        {
+            InitializeComponent();
+            BindingContext = new ScoreboardViewModel();
+        }
     }
 }
