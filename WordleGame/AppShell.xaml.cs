@@ -8,9 +8,11 @@ namespace WordleGame
         {
             InitializeComponent();
 
-            // Register the route for MainPage and GamePage
+            // Register the route for LoginPage, MainPage and GamePage
+            Routing.RegisterRoute("login", typeof(View.LoginPage));
             Routing.RegisterRoute("main", typeof(View.MainPage));
             Routing.RegisterRoute("game", typeof(View.GamePage));
+            Routing.RegisterRoute("scoreboard", typeof(View.ScoreboardPage));
         }
     }
 }

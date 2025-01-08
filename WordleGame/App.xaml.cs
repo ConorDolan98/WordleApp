@@ -7,6 +7,9 @@
             InitializeComponent();
 
             MainPage = new AppShell();
+            //To have login page show first
+            Shell.Current.GoToAsync("//LoginPage");
+
         }
     }
 }

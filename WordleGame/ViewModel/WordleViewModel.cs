@@ -191,7 +191,7 @@ namespace WordleGame.ViewModel
         //method to submit the player's answer and provide feedback
         async Task SubmitAnswerAsync()
         {
-            if (IsBusy|| MaxAttempts <= 0)
+            if (IsBusy || MaxAttempts <= 0)
                 return;
 
             try
@@ -242,20 +242,9 @@ namespace WordleGame.ViewModel
                         result.Add("Congratulations! You guessed the word!");
                         GuessResult = result;
 
-                        var scoreData = new ScoreData
-                        {
-                            PlayerName = PlayerName,
-                            Word = SelectWord,
-                            AttemptsUsed = 6 - MaxAttempts
-                        };
-
-                        // Pass the score data to the ScoreboardViewModel
-                        var scoreboardViewModel = new ScoreboardViewModel();
-                        scoreboardViewModel.AddScore(scoreData);
-
                         // Show a popup for winning
                         await Shell.Current.DisplayAlert("You Win!", "Congratulations! You've guessed the word correctly.", "OK");
-                        MaxAttempts = 0; // Game ends
+                        MaxAttempts = 0; //gameover
                         SetGameOver(true);
                     }
                     else if (MaxAttempts == 0)
@@ -285,6 +274,16 @@ namespace WordleGame.ViewModel
             {
                 IsBusy = false;
             }
+        }
+
+    //method to send data to scoreboard
+    public async void SendScoreAsync(string playerName, string word, int attempts)
+        {
+            //adds the result to the scoreboard
+            var scoreboardViewModel = new ScoreboardViewModel();
+            scoreboardViewModel.AddResult(playerName, word, attempts);
+
+            await Shell.Current.GoToAsync("scoreboard");
         }
     }
 }

@@ -5,28 +5,43 @@ namespace WordleGame.ViewModel
 {
     public class ScoreboardViewModel : BaseViewModel
     {
-        private ObservableCollection<ScoreData> scoreboard = new();
+        private ObservableCollection<ScoreBoard> scores;
 
-        public ObservableCollection<ScoreData> Scoreboard
+        public ObservableCollection<ScoreBoard> Scores
         {
-            get => scoreboard;
+            get => scores;
             set
             {
-                scoreboard = value;
-                OnPropertyChanged();
+                if (scores != value)
+                {
+                    scores = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
         public ScoreboardViewModel()
         {
-            Title = "Scoreboard";
-            // Load the scoreboard data here if needed
+            Scores = new ObservableCollection<ScoreBoard>();
         }
 
-        public void AddScore(ScoreData scoreData)
+        public class ScoreBoard
         {
-            Scoreboard.Add(scoreData);
+            public string PlayerName { get; set; }
+            public string Word { get; set; }
+            public int Attempts { get; set; }
         }
+
+        public void AddResult(string playerName, string word, int attempts)
+        {
+            Scores.Add(new ScoreBoard
+            {
+                PlayerName = playerName,
+                Word = word,
+                Attempts = attempts
+            });
+        }
+
     }
 }
 

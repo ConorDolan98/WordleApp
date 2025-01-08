@@ -9,7 +9,7 @@ namespace WordleGame.ViewModel
     {
         private bool isBusy;
         private string title;
-
+        //Busy indicator
         public bool IsBusy
         {
             get => isBusy;
@@ -36,6 +36,8 @@ namespace WordleGame.ViewModel
             }
         }
 
+
+        //Allows ui to update
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

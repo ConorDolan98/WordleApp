@@ -4,6 +4,9 @@
        xmlns:view="clr-namespace:WordleGame.View"
        x:Class="WordleGame.AppShell">
 
+    <!-- Define the route for LoginPage -->
+    <ShellContent Title="LoginPage" ContentTemplate="{DataTemplate view:LoginPage}" Route="login"/>
+
     <!-- Define the route for MainPage -->
     <ShellContent Title="MainPage" ContentTemplate="{DataTemplate view:MainPage}" Route="main" />
 

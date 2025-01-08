@@ -1,27 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModel="clr-namespace:WordleGame.ViewModel"
-             x:Class="WordleGame.View.ScoreboardPage">
+             x:Class="WordleGame.View.ScoreboardPage"
+             Title="Scoreboard">
 
     <ContentPage.BindingContext>
         <viewModel:ScoreboardViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout Padding="10">
-        <Label Text="Scoreboard" FontSize="Large" />
-        <CollectionView ItemsSource="{Binding Scoreboard}">
-            <CollectionView.ItemTemplate>
+    <VerticalStackLayout Padding="20">
+        <ListView ItemsSource="{Binding Scores}">
+            <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Orientation="Horizontal" Padding="5">
-                        <Label Text="{Binding PlayerName}" WidthRequest="100" />
-                        <Label Text="{Binding Word}" WidthRequest="100" />
-                        <Label Text="{Binding AttemptsUsed}" WidthRequest="50" />
-                    </StackLayout>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal" Padding="10">
+                            <Label Text="{Binding PlayerName}" WidthRequest="100" />
+                            <Label Text="{Binding Word}" WidthRequest="100" />
+                            <Label Text="{Binding Attempts}" WidthRequest="50" />
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </StackLayout>
-
+            </ListView.ItemTemplate>
+        </ListView>
+    </VerticalStackLayout>
 </ContentPage>
-
-

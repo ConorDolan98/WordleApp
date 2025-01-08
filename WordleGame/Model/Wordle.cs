@@ -10,10 +10,4 @@ namespace WordleGame.Model
     {
         public string Word { get; set; }
     }
-    public class ScoreData
-    {
-        public string PlayerName { get; set; }
-        public string Word { get; set; }
-        public int AttemptsUsed { get; set; }
-    }
 }

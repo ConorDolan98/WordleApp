@@ -4,19 +4,29 @@
              xmlns:viewModel="clr-namespace:WordleGame.ViewModel"
              x:Class="WordleGame.View.GamePage">
 
-    <VerticalStackLayout Padding="20" Spacing="15">
+    <!-- Game Title -->
+    <Label Text="Wordle Game" 
+       FontSize="24" 
+       HorizontalOptions="Center" 
+       VerticalOptions="Start" />
 
-        <!-- Game Title -->
-        <Label Text="Wordle Game" 
-               FontSize="24" 
-               HorizontalOptions="Center" 
-               VerticalOptions="Start" />
+    <VerticalStackLayout Padding="20" Spacing="15">
 
         <!-- Attempts Left -->
         <Label Text="{Binding MaxAttempts, StringFormat='Attempts Left: {0}'}" 
                FontSize="18" 
                HorizontalOptions="Center" 
                VerticalOptions="Start" />
+
+        <!-- Feedback -->
+        <Label Text="Feedback:" FontAttributes="Bold" VerticalOptions="Start" />
+        <CollectionView ItemsSource="{Binding GuessResult}" VerticalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
         <!-- Player's Input -->
         <Entry Placeholder="Enter your 5-letter guess"
@@ -31,16 +41,6 @@
                 Command="{Binding SubmitAnswerCommand}"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="Center" />
-
-        <!-- Feedback -->
-        <Label Text="Feedback:" FontAttributes="Bold" VerticalOptions="Start" />
-        <CollectionView ItemsSource="{Binding GuessResult}" VerticalOptions="FillAndExpand">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Label Text="{Binding}" />
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
 
         <!-- Play Again Button -->
         <Button Text="New Game" Command="{Binding NewGameCommand}" />
