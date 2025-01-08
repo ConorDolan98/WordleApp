@@ -13,6 +13,7 @@ namespace WordleGame.Services
     {
         private readonly HttpClient httpClient;
         private List<Wordle> wordsList = new();
+        private int currentWordIndex = -1;
 
         public WordleService()
         {
@@ -23,7 +24,8 @@ namespace WordleGame.Services
         {
             // Checks if words are loaded
             if (wordsList.Count > 0)
-                return wordsList;
+                //RandomizeWords(wordsList);
+            return wordsList;
 
             var wordUrl = "https://raw.githubusercontent.com/DonH-ITS/jsonfiles/main/words.txt";
 
@@ -55,6 +57,14 @@ namespace WordleGame.Services
             }
 
             return wordsList;
+        }
+
+        internal object GetNextWord()
+        {
+            if (wordsList.Count == 0) ;
+
+            currentWordIndex = (currentWordIndex + 1) % wordsList.Count;
+            return wordsList[currentWordIndex];
         }
 
         private void RandomizeWords(List<Wordle> wordsList)

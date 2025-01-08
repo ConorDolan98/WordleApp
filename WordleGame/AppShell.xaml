@@ -13,4 +13,7 @@
     <!-- Define the route for GamePage -->
     <ShellContent Title="GamePage" ContentTemplate="{DataTemplate view:GamePage}" Route="game" />
 
+    <!-- Define the route for ScoreboardPage -->
+    <ShellContent Title="ScoreboardPage" ContentTemplate="{DataTemplate view:ScoreboardPage}" Route="scoreboard"/>
+
 </Shell>

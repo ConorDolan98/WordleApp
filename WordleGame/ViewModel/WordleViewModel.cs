@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WordleGame.Model;
 using WordleGame.Services;
+using WordleGame.View;
 
 namespace WordleGame.ViewModel
 {
@@ -18,21 +19,10 @@ namespace WordleGame.ViewModel
         private string selectWord = "";
         private char[] selectWordArray;
         private string playerAnswer;
+        private string playerName;
         private ObservableCollection<string> guessResult;
         private int maxAttempts = 6;
         private bool isGameOver;
-        private string playerName;
-
-
-        public string PlayerName
-        {
-            get => playerName;
-            set
-            {
-                playerName = value;
-                OnPropertyChanged();
-            }
-        }
 
         public bool IsGameOver
         {
@@ -115,7 +105,7 @@ namespace WordleGame.ViewModel
         //WordleViewModel Default Constructor
         public WordleViewModel()
         {
-
+            playerName = Preferences.Get("PlayerName", "Player");
         }
 
         //overloaded constructor
@@ -142,11 +132,12 @@ namespace WordleGame.ViewModel
                 MaxAttempts = 6;
                 PlayerAnswer = string.Empty;
                 GuessResult = new ObservableCollection<string>();
-                await GetWordsAsync();
+                SetGameOver(false);
 
-                OnPropertyChanged(nameof(MaxAttempts));
-                OnPropertyChanged(nameof(PlayerAnswer));
-                OnPropertyChanged(nameof(GuessResult));
+                await GetWordsAsync();
+                SelectWord = ((Wordle)wordleService.GetNextWord()).Word;
+
+
             }
             catch (Exception ex)
             {
@@ -159,6 +150,8 @@ namespace WordleGame.ViewModel
             }
         }
 
+        //static random instance
+        private static readonly Random random = new Random();
 
         // Method to get the list of words and select a random word
         async Task GetWordsAsync()
@@ -173,7 +166,7 @@ namespace WordleGame.ViewModel
 
                 if (words.Any())
                 {
-                    SelectWord = words[0].Word;
+                    SelectWord = words[random.Next(words.Count)].Word;
                     Debug.WriteLine($"Selected Word: {SelectWord}");
                 }
             }
@@ -246,6 +239,7 @@ namespace WordleGame.ViewModel
                         await Shell.Current.DisplayAlert("You Win!", "Congratulations! You've guessed the word correctly.", "OK");
                         MaxAttempts = 0; //gameover
                         SetGameOver(true);
+                        EndGame();
                     }
                     else if (MaxAttempts == 0)
                     {
@@ -255,6 +249,7 @@ namespace WordleGame.ViewModel
                         // Show a popup for losing
                         await Shell.Current.DisplayAlert("Game Over", $"You've run out of attempts. The word was: {new string(selectWordArray)}.", "OK");
                         SetGameOver(true);
+                        EndGame();
                     }
                     else
                     {
@@ -276,14 +271,17 @@ namespace WordleGame.ViewModel
             }
         }
 
-    //method to send data to scoreboard
-    public async void SendScoreAsync(string playerName, string word, int attempts)
+        //method to send data to scoreboard
+        private void EndGame()
         {
-            //adds the result to the scoreboard
-            var scoreboardViewModel = new ScoreboardViewModel();
-            scoreboardViewModel.AddResult(playerName, word, attempts);
+            var attemptsUsed = 6 - MaxAttempts;
 
-            await Shell.Current.GoToAsync("scoreboard");
+            var scoreboardViewModel = new ScoreboardViewModel();
+            scoreboardViewModel.AddScore(playerName, SelectWord, attemptsUsed);
+
+            // Navigate to the ScoreboardPage
+            //Shell.Current.GoToAsync("scoreboard");
         }
+
     }
 }
