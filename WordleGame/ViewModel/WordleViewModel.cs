@@ -15,6 +15,7 @@ namespace WordleGame.ViewModel
 {
     public class WordleViewModel : BaseViewModel
     {
+        //Variables
         private WordleService wordleService;
         private string selectWord = "";
         private char[] selectWordArray;
@@ -105,7 +106,7 @@ namespace WordleGame.ViewModel
         //WordleViewModel Default Constructor
         public WordleViewModel()
         {
-            playerName = Preferences.Get("PlayerName", "Player");
+
         }
 
         //overloaded constructor
@@ -116,6 +117,8 @@ namespace WordleGame.ViewModel
             GetWordsCommand = new Command(async () => await GetWordsAsync());
             SubmitAnswerCommand = new Command(async () => await SubmitAnswerAsync());
             NewGameCommand = new Command(async () => await NewGameAsync());
+            playerName = Preferences.Get("playerName", "Player");
+
 
             Debug.WriteLine("WordleViewModel initialized");
             _ = GetWordsAsync();
@@ -190,7 +193,7 @@ namespace WordleGame.ViewModel
             try
             {
                 IsBusy = true;
-                var playerAnswerArray = PlayerAnswer.ToCharArray(); //puts user's answer into an array
+                var playerAnswerArray = PlayerAnswer.ToLower().ToCharArray(); //puts user's answer into an array
                 var result = new ObservableCollection<string>();
 
                 if (selectWordArray == null)
@@ -237,9 +240,9 @@ namespace WordleGame.ViewModel
 
                         // Show a popup for winning
                         await Shell.Current.DisplayAlert("You Win!", "Congratulations! You've guessed the word correctly.", "OK");
-                        MaxAttempts = 0; //gameover
-                        SetGameOver(true);
                         EndGame();
+                        SetGameOver(true);
+                        MaxAttempts = 0; //gameover
                     }
                     else if (MaxAttempts == 0)
                     {
@@ -279,8 +282,6 @@ namespace WordleGame.ViewModel
             var scoreboardViewModel = new ScoreboardViewModel();
             scoreboardViewModel.AddScore(playerName, SelectWord, attemptsUsed);
 
-            // Navigate to the ScoreboardPage
-            //Shell.Current.GoToAsync("scoreboard");
         }
 
     }

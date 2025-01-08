@@ -19,13 +19,12 @@
 		<Label Text="Dark Mode" />
 		<Switch IsToggled="{Binding IsDark}" />
 
-		<!-- Font Size Slider -->
+		<!-- Font Size Slider 
 		<Label Text="Font Size" />
 		<Slider Minimum="12" Maximum="24" Value="{Binding FontSize}" />
-
-		<!-- Preview Text -->
+ 
 		<Label Text="Sample Text"
                FontSize="{Binding FontSize}"
-               HorizontalOptions="Center" />
+               HorizontalOptions="Center" /-->
 	</VerticalStackLayout>
 </ContentPage>

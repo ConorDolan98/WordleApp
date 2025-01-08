@@ -13,6 +13,22 @@ namespace WordleGame.ViewModel
         public ScoreboardViewModel()
         {
             LoadScores();
+            ResetScoresCommand = new Command(ResetScores);
+        }
+
+        public Command ResetScoresCommand { get; }
+
+        // Reset scores
+        public void ResetScores()
+        {
+            Scores.Clear();
+
+            var filePath = Path.Combine(FileSystem.AppDataDirectory, "scores.json");
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+            Console.WriteLine("Scores reset successfully.");
         }
 
         // Load scores 

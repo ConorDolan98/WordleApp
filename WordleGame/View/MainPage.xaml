@@ -9,12 +9,13 @@
         <viewModel:MainPageViewModel />
     </ContentPage.BindingContext>
 
-    <!-- Main Layout -->
-    <VerticalStackLayout Padding="20">
-        
-        <!-- Navigation Buttons-->
-        <Button Text="Start Game" Command="{Binding NavigateToGameCommand}" />
-        <Button Text="Settings" Clicked="OnSettingsClicked" />
-        <Button Text="Scoreboard" Clicked="OnScoreboardClicked" />
-    </VerticalStackLayout>
+    <Grid RowDefinitions="*,Auto">
+        <!-- Main Layout -->
+        <VerticalStackLayout Padding="20" Spacing="15" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+            <!-- Navigation Buttons-->
+            <Button Text="Start Game" Command="{Binding NavigateToGameCommand}" />
+            <Button Text="Settings" Clicked="OnSettingsClicked" />
+            <Button Text="Scoreboard" Clicked="OnScoreboardClicked" />
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

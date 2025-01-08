@@ -34,6 +34,8 @@
                HorizontalOptions="FillAndExpand"
                VerticalOptions="Center" />
 
+        <Label Text="{Binding SelectWord}" FontSize="24" HorizontalOptions="Center" />
+
         <!-- Submit Button -->
         <Button Text="Submit"
                 Command="{Binding SubmitAnswerCommand}"

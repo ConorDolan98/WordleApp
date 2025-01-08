@@ -8,9 +8,16 @@
     <ContentPage.BindingContext>
         <viewModel:LoginViewModel/>
     </ContentPage.BindingContext>
+    
     <!-- User log in -->
-    <VerticalStackLayout Padding="20">
-        <Entry Placeholder="Enter your name" Text="{Binding PlayerName}" />
-        <Button Text="Log-In" Command="{Binding LoginCommand}" />
+    <VerticalStackLayout Padding="20"
+                         Spacing="15"
+                         VerticalOptions="Center"
+                         HorizontalOptions="FillAndExpand">
+
+        <Entry Placeholder="Enter your name" Text="{Binding PlayerName}"/>
+
+        <Button Text="Log-In" Command="{Binding LoginCommand}"/>
+        
     </VerticalStackLayout>
 </ContentPage>
